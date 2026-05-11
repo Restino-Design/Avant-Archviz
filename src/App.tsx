@@ -640,7 +640,9 @@ function App() {
 
     <div style={{ width: "100vw", height: "100vh", background: "#111" }}>
 
-      <Canvas flat camera={{ position: [0, 2, 5], fov: 45 }}>
+      <Canvas flat
+          dpr={[1, 2]}
+          camera={{ position: [0, 2, 5], fov: 45 }}>
 
         <Suspense fallback={null}>
           <Stage environment="apartment" intensity={0.6}>
