@@ -1,0 +1,303 @@
+{
+  "accessors": [
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 230160,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 56689,
+      "max": [
+        0.699231922626495,
+        0.997572302818298,
+        0.108327217400074
+      ],
+      "min": [
+        -0.699156284332275,
+        -1.04973292350769,
+        -0.0351744592189789
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 56689,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 56689,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 4,
+      "componentType": 5125,
+      "count": 230160,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 5,
+      "componentType": 5126,
+      "count": 56689,
+      "max": [
+        0.699231803417206,
+        0.997572302818298,
+        0.108327217400074
+      ],
+      "min": [
+        -0.69915634393692,
+        -1.04973292350769,
+        -0.0351744592189789
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 6,
+      "componentType": 5126,
+      "count": 56689,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 7,
+      "componentType": 5126,
+      "count": 56689,
+      "type": "VEC2"
+    }
+  ],
+  "asset": {
+    "generator": "Substance Painter 6.2.2",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 920640,
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 680268,
+      "byteOffset": 920640,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 680268,
+      "byteOffset": 1600908,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 453512,
+      "byteOffset": 2281176,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 920640,
+      "byteOffset": 2734688,
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 680268,
+      "byteOffset": 3655328,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 680268,
+      "byteOffset": 4335596,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 453512,
+      "byteOffset": 5015864,
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 5469376,
+      "uri": "objs_.bin"
+    }
+  ],
+  "images": [
+    {
+      "uri": "standardSurface1_baseColor.png"
+    },
+    {
+      "uri": "standardSurface1_occlusionRoughnessMetallic.png"
+    },
+    {
+      "uri": "standardSurface1_normal.png"
+    }
+  ],
+  "materials": [
+    {
+      "alphaMode": "OPAQUE",
+      "name": "standardSurface1",
+      "normalTexture": {
+        "index": 2
+      },
+      "occlusionTexture": {
+        "index": 1
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicRoughnessTexture": {
+          "index": 1
+        }
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Semi-Sheer Rod Pocket Curtains - Left",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 2,
+            "POSITION": 1,
+            "TEXCOORD_0": 3
+          },
+          "indices": 0,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Semi-Sheer Rod Pocket Curtains - Left2",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 6,
+            "POSITION": 5,
+            "TEXCOORD_0": 7
+          },
+          "indices": 4,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        2
+      ],
+      "name": "arch",
+      "scale": [
+        0.00999999977648258,
+        0.00999999977648258,
+        0.00999999977648258
+      ]
+    },
+    {
+      "children": [
+        3,
+        5
+      ],
+      "name": "curtain"
+    },
+    {
+      "children": [
+        4
+      ],
+      "name": "Semi-Sheer Rod Pocket Curtains - Left",
+      "rotation": [
+        1.54543098318527e-08,
+        0.70710676908493,
+        -1.54543098318527e-08,
+        0.70710676908493
+      ],
+      "scale": [
+        57.4902458190918,
+        141.398712158203,
+        131.414810180664
+      ],
+      "translation": [
+        -682.938720703125,
+        223.029266357422,
+        209.947219848633
+      ]
+    },
+    {
+      "mesh": 0,
+      "name": "Semi-Sheer Rod Pocket Curtains - Left"
+    },
+    {
+      "children": [
+        6
+      ],
+      "name": "Semi-Sheer Rod Pocket Curtains - Left2",
+      "rotation": [
+        1.54543098318527e-08,
+        0.70710676908493,
+        -1.54543098318527e-08,
+        0.70710676908493
+      ],
+      "scale": [
+        57.4902458190918,
+        141.398712158203,
+        131.414810180664
+      ],
+      "translation": [
+        -682.938720703125,
+        223.029266357422,
+        100.994606018066
+      ]
+    },
+    {
+      "mesh": 1,
+      "name": "Semi-Sheer Rod Pocket Curtains - Left2"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9985,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    },
+    {
+      "sampler": 0,
+      "source": 2
+    }
+  ]
+}
