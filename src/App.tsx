@@ -4,12 +4,36 @@ import { Canvas } from "@react-three/fiber"
 import { OrbitControls, useGLTF, Stage, useTexture } from "@react-three/drei"
 
 
-import { Suspense } from "react"
+import { Suspense, useCallback, useState } from "react"
+
+// Mobile devices cap concurrent WebGL/texture memory hard — this scene's
+// desktop textures are mostly 2K-4K per PBR channel across ~15 materials,
+// which is a multi-GB GPU memory footprint once decoded and can crash the
+// tab outright on a phone. On mobile we swap in a pre-generated 1024px
+// mirror of every texture (public/textures-mobile/), cutting decoded VRAM
+// usage by roughly 4-16x depending on the source resolution, and also
+// drop the costliest render passes (shadows, postprocessing, >1x DPR).
+const isMobileDevice =
+  typeof window !== "undefined" &&
+  (window.matchMedia("(max-width: 820px)").matches ||
+    /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent))
+
+function texPath(path: string) {
+  return isMobileDevice ? path.replace("/textures/", "/textures-mobile/") : path
+}
+
+function useResponsiveTexture<T extends Record<string, string>>(paths: T) {
+  const resolved = {} as Record<keyof T, string>
+  for (const key in paths) {
+    resolved[key] = texPath(paths[key])
+  }
+  return useTexture(resolved)
+}
 
     function BackgroundModel(props: any) {
       const { scene } = useGLTF("/objs/background.glb")
       
-      const textures = useTexture({
+      const textures = useResponsiveTexture({
         map: "/textures/background_wit/standardSurface2_baseColor.png",
         normalMap: "/textures/background_wit/standardSurface2_normal.png",
         aoMap: "/textures/background_wit/standardSurface2_occlusionRoughnessMetallic.png",
@@ -41,7 +65,7 @@ import { Suspense } from "react"
     function FCover(props: any) {
       const { scene } = useGLTF("/objs/roof.glb")
       
-      const textures = useTexture({
+      const textures = useResponsiveTexture({
         map: "/textures/background/roof_baseColor.png",
         normalMap: "/textures/background/roof_normal.png",
         aoMap: "/textures/background/roof_occlusionRoughnessMetallic.png",
@@ -71,7 +95,7 @@ import { Suspense } from "react"
         function RoofModel(props: any) {
       const { scene } = useGLTF("/objs/r2.glb")
       
-      const textures = useTexture({
+      const textures = useResponsiveTexture({
         map: "/textures/background/roof_baseColor.png",
         normalMap: "/textures/background/roof_normal.png",
         aoMap: "/textures/background/roof_occlusionRoughnessMetallic.png",
@@ -101,7 +125,7 @@ import { Suspense } from "react"
     function Cover(props: any) {
       const { scene } = useGLTF("/objs/protocover.glb")
       
-      const textures = useTexture({
+      const textures = useResponsiveTexture({
         map: "/textures/background/roof_baseColor.png",
         normalMap: "/textures/background/roof_normal.png",
         aoMap: "/textures/background/roof_occlusionRoughnessMetallic.png",
@@ -131,7 +155,7 @@ import { Suspense } from "react"
     function CouchModel(props: any) {
       const { scene } = useGLTF("/objs/couch.glb")
       
-      const textures = useTexture({
+      const textures = useResponsiveTexture({
         map: "/textures/couch1/sofa_03_diff_4k.jpg",
         normalMap: "/textures/couch1/sofa_03_nor_gl_4k.png",
         roughnessMap: "/textures/couch1/sofa_03_rough_4k.jpg",
@@ -164,7 +188,7 @@ import { Suspense } from "react"
     function Pillow(props: any) {
       const { scene } = useGLTF("/objs/pillow.glb")
       
-      const textures = useTexture({
+      const textures = useResponsiveTexture({
         map: "/textures/pillow2/pasted__standardSurface2_baseColor.png",
         normalMap: "/textures/pillow2/pasted__standardSurface2_normal.png",
         aoMap: "/textures/pillow2/pasted__standardSurface2_occlusionRoughnessMetallic.png",
@@ -194,7 +218,7 @@ import { Suspense } from "react"
     function Furniture(props: any) {
       const { scene } = useGLTF("/objs/furniture.glb")
       
-      const textures = useTexture({
+      const textures = useResponsiveTexture({
         map: "/textures/furniture1/modern_wooden_cabinet_diff_4k.jpg",
         normalMap: "/textures/furniture1/modern_wooden_cabinet_nor_gl_4k.png",
         roughnessMap: "/textures/furniture1/modern_wooden_cabinet_rough_4k.png",
@@ -221,7 +245,7 @@ import { Suspense } from "react"
     function Lamp(props: any) {
       const { scene } = useGLTF("/objs/lamp.glb")
       
-      const textures = useTexture({
+      const textures = useResponsiveTexture({
         map: "/textures/lamp1/standardSurface1_baseColor.png",
         normalMap: "/textures/lamp1/standardSurface1_normal.png",
         aoMap: "/textures/lamp1/standardSurface1_occlusionRoughnessMetallic.png",
@@ -252,7 +276,7 @@ import { Suspense } from "react"
     function LampLight(props: any) {
       const { scene } = useGLTF("/objs/lamplight.glb")
       
-      const textures = useTexture({
+      const textures = useResponsiveTexture({
         map: "/textures/lamplight/modern_ceiling_globe_baseColor.png",
         normalMap: "/textures/lamplight/modern_ceiling_globe_normal.png",
         aoMap: "/textures/lamplight/modern_ceiling_globe_occlusionRoughnessMetallic.png",
@@ -293,7 +317,7 @@ import { Suspense } from "react"
     function TV(props: any) {
       const { scene } = useGLTF("/objs/tv.glb")
       
-      const textures = useTexture({
+      const textures = useResponsiveTexture({
         map: "/textures/tv1/Television_01_diff_4k.jpg",
         normalMap: "/textures/tv1/Television_01_nor_gl_4k.png",
         roughnessMap: "/textures/tv1/Television_01_roughness_4k.jpg",
@@ -326,7 +350,7 @@ import { Suspense } from "react"
     function Curtain(props: any) {
       const { scene } = useGLTF("/objs/curtain.glb")
       
-      const textures = useTexture({
+      const textures = useResponsiveTexture({
         map: "/textures/curtain3/standardSurface1_baseColor.png",
         normalMap: "/textures/curtain3/standardSurface1_normal.png",
         aoMap: "/textures/curtain3/standardSurface1_occlusionRoughnessMetallic.png",
@@ -356,7 +380,7 @@ import { Suspense } from "react"
     function Stick(props: any) {
       const { scene } = useGLTF("/objs/curtain_stick.glb")
       
-      const textures = useTexture({
+      const textures = useResponsiveTexture({
         map: "/textures/curtain_stick/standardSurface1_baseColor.png",
         normalMap: "/textures/curtain_stick/standardSurface1_normal.png",
         aoMap: "/textures/curtain_stick/standardSurface1_occlusionRoughnessMetallic.png",
@@ -386,7 +410,7 @@ import { Suspense } from "react"
     function MDoor(props: any) {
       const { scene } = useGLTF("/objs/door.glb")
 
-      const textures = useTexture({
+      const textures = useResponsiveTexture({
         map: "/textures/door3/standardSurface1_baseColor.png",
         normalMap: "/textures/door3/standardSurface1_normal.png",
         aoMap: "/textures/door3/standardSurface1_occlusionRoughnessMetallic.png",
@@ -417,7 +441,7 @@ import { Suspense } from "react"
     function KDoor(props: any) {
       const { scene } = useGLTF("/objs/doork.glb")
 
-      const textures = useTexture({
+      const textures = useResponsiveTexture({
         map: "/textures/doork2/standardSurface1_baseColor.png",
         normalMap: "/textures/doork2/standardSurface1_normal.png",
         aoMap: "/textures/doork2/standardSurface1_occlusionRoughnessMetallic.png",
@@ -447,7 +471,7 @@ import { Suspense } from "react"
     function Window(props: any) {
       const { scene } = useGLTF("/objs/window.glb")
 
-      const textures = useTexture({
+      const textures = useResponsiveTexture({
         map: "/textures/window/openPBR_shader1_baseColor.png",
         normalMap: "/textures/window/openPBR_shader1_normal.png",
         aoMap: "/textures/window/openPBR_shader1_occlusionRoughnessMetallic.png",
@@ -476,7 +500,7 @@ import { Suspense } from "react"
     function Chair1(props: any) {
       const { scene } = useGLTF("/objs/chair1.glb")
 
-      const textures = useTexture({
+      const textures = useResponsiveTexture({
         map: "/textures/chairs1/dining_chair_02_diff_4k.jpg",
         normalMap: "/textures/chairs1/dining_chair_02_nor_gl_4k.png",
         roughnessMap: "/textures/chairs1/dining_chair_02_rough_4k.jpg",
@@ -509,7 +533,7 @@ import { Suspense } from "react"
     function Chair2(props: any) {
       const { scene } = useGLTF("/objs/chair2.glb")
 
-        const textures = useTexture({
+        const textures = useResponsiveTexture({
         map: "/textures/chairs1/dining_chair_02_diff_4k.jpg",
         normalMap: "/textures/chairs1/dining_chair_02_nor_gl_4k.png",
         roughnessMap: "/textures/chairs1/dining_chair_02_rough_4k.jpg",
@@ -542,7 +566,7 @@ import { Suspense } from "react"
     function Chair3(props: any) {
       const { scene } = useGLTF("/objs/chair3.glb")
 
-      const textures = useTexture({
+      const textures = useResponsiveTexture({
         map: "/textures/chairs1/dining_chair_02_diff_4k.jpg",
         normalMap: "/textures/chairs1/dining_chair_02_nor_gl_4k.png",
         roughnessMap: "/textures/chairs1/dining_chair_02_rough_4k.jpg",
@@ -575,7 +599,7 @@ import { Suspense } from "react"
     function Chair4(props: any) {
       const { scene } = useGLTF("/objs/chair4.glb")
 
-      const textures = useTexture({
+      const textures = useResponsiveTexture({
         map: "/textures/chairs1/dining_chair_02_diff_4k.jpg",
         normalMap: "/textures/chairs1/dining_chair_02_nor_gl_4k.png",
         roughnessMap: "/textures/chairs1/dining_chair_02_rough_4k.jpg",
@@ -608,7 +632,7 @@ import { Suspense } from "react"
     function Table(props: any) {
       const { scene } = useGLTF("/objs/table.glb")
 
-      const textures = useTexture({
+      const textures = useResponsiveTexture({
         map: "/textures/table1/modern_coffee_table_01_diff_4k.jpg",
         normalMap: "/textures/table1/modern_coffee_table_01_nor_gl_4k.png",
         roughnessMap: "/textures/table1/modern_coffee_table_01_rough_4k.png",
@@ -634,28 +658,76 @@ import { Suspense } from "react"
 
 
 
+// If the GPU/driver kills the WebGL context (the classic mobile failure
+// mode for a scene this size), we catch it and swap to a plain retry
+// screen instead of leaving a frozen/black canvas — or worse, letting the
+// crash take down the rest of the page it's embedded in.
 function App() {
+  const [contextLost, setContextLost] = useState(false)
+
+  const handleCreated = useCallback(({ gl }: { gl: THREE.WebGLRenderer }) => {
+    gl.domElement.addEventListener(
+      "webglcontextlost",
+      (event) => {
+        event.preventDefault()
+        setContextLost(true)
+      },
+      false
+    )
+  }, [])
+
+  if (contextLost) {
+    return (
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+          background: "#111",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          gap: "0.75rem",
+          color: "#eee",
+          fontFamily: "sans-serif",
+          textAlign: "center",
+          padding: "1.5rem",
+        }}
+      >
+        <p>This scene ran out of graphics memory on this device.</p>
+        <button
+          onClick={() => window.location.reload()}
+          style={{ padding: "0.6rem 1.2rem", cursor: "pointer" }}
+        >
+          Reload
+        </button>
+      </div>
+    )
+  }
 
   return (
 
     <div style={{ width: "100vw", height: "100vh", background: "#111" }}>
 
       <Canvas flat
-          dpr={[1, 2]}
-          camera={{ position: [0, 2, 5], fov: 45 }}>
+          dpr={isMobileDevice ? 1 : [1, 2]}
+          camera={{ position: [0, 2, 5], fov: 45 }}
+          onCreated={handleCreated}>
 
         <Suspense fallback={null}>
-          <Stage environment="apartment" intensity={0.6}>
-            
-            <EffectComposer>
-              <Bloom 
-                luminanceThreshold={1} // Só brilha o que for MUITO claro (emissive > 1)
-                mipmapBlur 
-                intensity={0.5} 
-                radius={0.4} 
-              />
-              <ToneMapping adaptive />
-            </EffectComposer>
+          <Stage environment="apartment" intensity={0.6} shadows={!isMobileDevice}>
+
+            {!isMobileDevice && (
+              <EffectComposer>
+                <Bloom
+                  luminanceThreshold={1} // Só brilha o que for MUITO claro (emissive > 1)
+                  mipmapBlur
+                  intensity={0.5}
+                  radius={0.4}
+                />
+                <ToneMapping adaptive />
+              </EffectComposer>
+            )}
             <BackgroundModel scale={1} />
             <RoofModel scale={1} />
             <Cover scale={1} />
