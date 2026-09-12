@@ -749,7 +749,7 @@ function App() {
             <Chair4 scale={1} />
             <Table scale={1} />
           </Stage>
-          <OrbitControls makeDefault /> 
+          <OrbitControls makeDefault autoRotate autoRotateSpeed={1.5} enableDamping /> 
         </Suspense>
       </Canvas>
 
